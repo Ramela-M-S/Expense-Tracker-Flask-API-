@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Monthly Summary{% endblock %}
+
+{% block content %}
+
+<div class="golden-card">
+    <h2 class="page-title">Monthly Expenses</h2>
+
+    <form method="POST">
+        <div class="mb-3">
+            <label for="month" class="form-label">Select Month</label>
+            <select name="month" id="month" class="form-control" required>
+                <option value="">--Choose Month--</option>
+                <option value="01">January</option>
+                <option value="02">February</option>
+                <option value="03">March</option>
+                <option value="04">April</option>
+                <option value="05">May</option>
+                <option value="06">June</option>
+                <option value="07">July</option>
+                <option value="08">August</option>
+                <option value="09">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Show Total</button>
+    </form>
+
+    {% if total_data %}
+    <div class="mt-4">
+        <h4>Total Expenses for Month: {{ total_data['Month'] }}</h4>
+        <p class="fs-5">₹{{ total_data['Total_Spent'] }}</p>
+    </div>
+{% endif %}
+
+</div>
+
+<style>
+.golden-card {
+    background: white;
+    width: 90%;
+    max-width: 600px;
+    margin: auto;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.12);
+    margin-top: 30px;
+    text-align: center;
+}
+.page-title {
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+.btn-primary {
+    background: #4b2e05;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 12px;
+}
+</style>
+
+{% endblock %}

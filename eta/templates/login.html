@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Login | Expense Tracker{% endblock %}
+
+{% block content %}
+<div class="card p-4" style="background:#fff8d6; border-radius:20px; max-width:400px; margin:auto;">
+    <h2 class="text-center mb-3" style="color:#b7950b;">Login</h2>
+    <form method="POST" action="{{ url_for('login_page') }}">
+        
+        <!-- Email -->
+        <div class="mb-3 input-group">
+            <span class="input-group-text" style="background:#ffe066; border:none;">
+                <i class="bi bi-envelope-fill"></i>
+            </span>
+            <input type="email" class="form-control" name="email" placeholder="Email" required>
+        </div>
+
+        <!-- Password -->
+        <div class="mb-3 input-group">
+            <span class="input-group-text" style="background:#ffe066; border:none;">
+                <i class="bi bi-lock-fill"></i>
+            </span>
+            <input type="password" class="form-control" name="password" placeholder="Password" required>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn w-100" style="background:#4b2e05; color:white; font-weight:600;">Login</button>
+
+        <!-- Register Link -->
+        <p class="text-center mt-2">
+            Don't have an account? 
+            <a href="{{ url_for('register_page') }}" style="color:#4b2e05; font-weight:600;">Register</a>
+        </p>
+    </form>
+</div>
+{% endblock %}

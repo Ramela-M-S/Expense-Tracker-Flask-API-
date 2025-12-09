@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Home | Expense Tracker{% endblock %}
+
+{% block content %}
+
+<div class="row g-4">
+
+    <!-- Add Expense -->
+    <div class="col-md-4">
+        <div class="card text-center shadow"
+             style="background:#fff8d6; border-radius:20px; padding:20px;">
+            
+            <div class="icon-circle" style="margin:auto; width:90px; height:90px; font-size:40px;">
+                <i class="bi bi-plus-circle-fill"></i>
+            </div>
+
+            <h5 class="mt-3" style="color:#b7950b; font-weight:600;">Add Your Expense</h5>
+            <a href="{{url_for('add_expense_page')}} "class="btn mt-2"
+               style="background:#4b2e05; color:white; font-weight:600; border-radius:12px;">
+               Go
+            </a>
+        </div>
+    </div>
+
+    <!-- Show Expenses -->
+    <div class="col-md-4">
+        <div class="card text-center shadow"
+             style="background:#fff8d6; border-radius:20px; padding:20px;">
+            
+            <div class="icon-circle" style="margin:auto; width:90px; height:90px; font-size:40px;">
+                <i class="bi bi-list-ul"></i>
+            </div>
+
+            <h5 class="mt-3" style="color:#b7950b; font-weight:600;">Show Expenses</h5>
+            <a href="{{url_for('show_expense_page')}}" class="btn mt-2"
+               style="background:#4b2e05; color:white; font-weight:600; border-radius:12px;">
+               Go
+            </a>
+        </div>
+    </div>
+
+    <!-- Monthly Total -->
+    <div class="col-md-4">
+        <div class="card text-center shadow"
+             style="background:#fff8d6; border-radius:20px; padding:20px;">
+            
+            <div class="icon-circle" style="margin:auto; width:90px; height:90px; font-size:40px;">
+                <i class="bi bi-calendar2-check-fill"></i>
+            </div>
+
+            <h5 class="mt-3" style="color:#b7950b; font-weight:600;">Monthly Total</h5>
+            <a href="{{url_for('monthly_page')}}" class="btn mt-2"
+               style="background:#4b2e05; color:white; font-weight:600; border-radius:12px;">
+               Go
+            </a>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

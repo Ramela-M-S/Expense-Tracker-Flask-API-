@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Home | Expense Tracker{% endblock %}
+
+{% block content %}
+<div class="card shadow-lg p-4" 
+     style="width: 420px; border-radius: 20px; background: white; margin: auto;">
+
+    <h3 class="text-center mb-4" style="color:#b7950b; font-weight: 600;">Smart Expense Tracking Website</h3>
+    
+    <p class="text-center" style="color:#555;">
+        Easily track your expenses, add new ones, and manage your account efficiently.
+    </p>
+
+    <div class="d-grid gap-2 mt-3">
+        <a href="{{ url_for('register_page') }}" class="btn btn-warning" style="color:#4b2e05; font-weight:600;">Create Account</a>
+        <a href="{{ url_for('login_page') }}" class="btn btn-outline-warning" style="color:#b7950b; font-weight:600;">Login</a>
+    </div>
+</div>
+{% endblock %}

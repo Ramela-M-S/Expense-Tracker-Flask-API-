@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block title %}Your Expenses{% endblock %}
+
+{% block content %}
+
+<div class="golden-card">
+    <h2 class="page-title">Your Expenses</h2>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} mt-2 mb-3">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="table-responsive">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Amount</th>
+                    <th>Category</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for e in expenses %}
+                <tr>
+                    <td>{{ e.title }}</td>
+                    <td>₹{{ e.amount }}</td>
+                    <td>{{ e.category }}</td>
+                    <td>{{ e.date }}</td>
+                    <td>
+                        <a class="delete-btn" href="/delete_expense/{{ e.id }}">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<style>
+/* Golden Card */
+.golden-card {
+    background: white;
+    width: 90%;
+    max-width: 900px;
+    margin: auto;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.12);
+    margin-top: 30px;
+}
+
+/* Page Title */
+.page-title {
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+/* Table Styling */
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.custom-table th {
+    background: #f3c766;
+    color: #333;
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.custom-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.custom-table tr:hover {
+    background: #fff7dd;
+}
+
+/* Delete Button */
+.delete-btn {
+    background: #e63946;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.delete-btn:hover {
+    background: #b71c1c;
+}
+
+/* Responsive */
+.table-responsive {
+    overflow-x: auto;
+}
+</style>
+
+{% endblock %}

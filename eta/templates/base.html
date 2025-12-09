@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Expense Tracker{% endblock %}</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<!-- Bootstrap -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(to bottom right, #fff8e6, #f5e8c7);
+        min-height: 100vh;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-direction: column;
+        padding-top: 90px; /* space for navbar */
+    }
+
+    /* TOP NAVBAR */
+    .top-navbar {
+        background: linear-gradient(to right, #b7950b, #f1c40f);
+        padding: 12px 20px;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 10;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .top-navbar .logo {
+        font-weight: 600;
+        font-size: 1.3rem;
+        color: white;
+        display: flex;
+        align-items: center;
+    }
+
+    .top-navbar .logo i {
+        margin-right: 8px;
+    }
+
+    .top-navbar .nav-links a {
+        color: white;
+        font-weight: 600;
+        margin-left: 20px;
+        text-decoration: none;
+    }
+
+    .top-navbar .nav-links a:hover {
+        opacity: 0.8;
+    }
+
+    /* FLASH MESSAGES ABOVE CARD */
+    .flash-container {
+        position: fixed;
+        top: 70px; /* below navbar */
+        width: 100%;
+        max-width: 700px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        z-index: 100;
+    }
+
+    .flash-message {
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 12px 20px;
+        border-radius: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 500;
+    }
+
+    .flash-success { background-color: #d4edda; color: #155724; }
+    .flash-danger { background-color: #f8d7da; color: #721c24; }
+    .flash-message .close-btn {
+        cursor: pointer;
+        font-weight: 700;
+    }
+
+    /* GOLD CARD CENTER */
+    .gold-card {
+        width: 650px;
+        max-width: 95%;
+        background: linear-gradient(to bottom, #fffef9, #fff7da);
+        border-radius: 30px;
+        padding: 40px 30px;
+        box-shadow: 0 0 25px rgba(255, 215, 0, 0.5),
+                    0 0 40px rgba(255, 215, 0, 0.3);
+        animation: goldGlow 3s infinite alternate;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        margin: 30px auto;
+    }
+
+    @keyframes goldGlow {
+        0% { box-shadow: 0 0 15px #f5d76e, 0 0 35px #f8e58c; }
+        100% { box-shadow: 0 0 30px #d4ac0d, 0 0 45px #f9e79f; }
+    }
+
+    /* CENTER CIRCLE ICON */
+    .icon-circle {
+        width: 140px;
+        height: 140px;
+        background: linear-gradient(145deg, #f4d03f, #b7950b);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 65px;
+        margin-bottom: 25px;
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25);
+        position: relative;
+    }
+    
+
+    .icon-circle::after {
+        content: "💵";
+        position: absolute;
+        font-size: 45px;
+        bottom: -15px;
+        right: -15px;
+        transform: rotate(-15deg);
+    }
+
+    /* WELCOME CARD INSIDE GOLD CARD */
+    .welcome-card {
+        width: 100%;
+        background: #fff8d6;
+        border-radius: 20px;
+        padding: 25px;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        margin-bottom: 20px;
+    }
+
+    .welcome-card h2 {
+        font-size: 2rem;
+        color: #b7950b;
+        margin-bottom: 10px;
+    }
+
+    .welcome-card p {
+        font-size: 1rem;
+        color: #555;
+    }
+
+    /* PAGE CONTENT AREA */
+    .content-area {
+        width: 100%;
+    }
+
+    @media (max-width: 768px) {
+        .gold-card {
+            width: 90%;
+            padding: 25px;
+        }
+        .icon-circle {
+            width: 120px;
+            height: 120px;
+            font-size: 55px;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="top-navbar">
+    <div class="logo"><i class="bi bi-cash-stack"></i> Expense Tracker</div>
+    <div class="nav-links">
+        <a href="/"><i class="bi bi-house-door"></i> Home</a>
+        <a href="/expenses"><i class="bi bi-list-ul"></i> Expenses</a>
+        <a href="/add-expense"><i class="bi bi-plus-circle"></i> Add Expense</a>
+        <a href="/login"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+        <a href="/register"><i class="bi bi-person-add"></i> Register</a>
+        <a href="/logout"><i class="bi bi-door-open"></i> Logout</a>
+    </div>
+</nav>
+
+<!-- FLASH MESSAGES -->
+<div class="flash-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash-message flash-{{ category }}">
+            <span>{{ message }}</span>
+            <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+</div>
+
+<!-- GOLD CARD -->
+<div class="gold-card">
+
+    <!-- ICON -->
+    <div class="icon-circle">
+        <i class="bi bi-cash-stack"></i>
+    </div>
+
+    <!-- WELCOME CARD -->
+    <div class="welcome-card">
+        <h2>Welcome Back!</h2>
+        <p>Check your expenses, add new ones, or manage your account.</p>
+    </div>
+
+    <!-- CONTENT AREA -->
+    <div class="content-area">
+        {% block content %}{% endblock %}
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
