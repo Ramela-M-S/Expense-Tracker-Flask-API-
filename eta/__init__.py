@@ -11,7 +11,7 @@ login_manager.login_view = "login_page"
 
 app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY", "your_secret_key_here")
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db=SQLAlchemy(app)
