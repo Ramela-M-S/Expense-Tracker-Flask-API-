@@ -60,6 +60,7 @@ def login_page():
 
 #DASHBOARD PAGE
 @app.route("/dashboard")
+@login_required
 def dashboard_page():
     return render_template("dashboard.html")
 
@@ -67,34 +68,51 @@ def dashboard_page():
 @app.route("/s_expense")
 @login_required
 def show_expense_page():
-    url=f"http://localhost:5000/api/expenses/{current_user.id}"
-    response = requests.get(url)
-    expenses = response.json()
+    expenses = Expense.query.filter_by(user_id=current_user.id).all()
     return render_template("show_expense.html", expenses=expenses)
-
-
 
 #ADD EXPENSE PAGE
 @app.route("/a_expense", methods=["GET","POST"])
 @login_required
 def add_expense_page():
-    url = f"http://localhost:5000/api/a_expenses/{current_user.id}"
     if request.method == "POST":
-        data = {"title":request.form["title"],
-                "amount":request.form["amount"],
-                "category":request.form["category"],
-                "date":request.form["date"],
-                }
-        requests.post(url, json = data)
+        title = request.form.get("title")
+        amount = float(request.form.get("amount", 0))
+        category = request.form.get("category")
+        date = request.form.get("date")
+
+        if not title or not category or not date:
+            flash("Please fill all fields!", "danger")
+            return redirect(url_for("add_expense_page"))
+
+        new_expense = Expense(
+            title=title,
+            amount=amount,
+            category=category,
+            date=date,
+            user_id=current_user.id
+        )
+        db.session.add(new_expense)
+        db.session.commit()
+        flash("Expense added successfully!", "success")
         return redirect(url_for("show_expense_page"))
+
     return render_template("add_expense.html")
 
 #DELETE EXPENSE PAGE
 @app.route("/delete_expense/<int:id>")
-def delete_expense(id): 
-    requests.delete(f"http://127.0.0.1:5000/api/delete/{id}")
-    return redirect(url_for("show_expense_page"))
+@login_required
+def delete_expense(id):
+    expense = Expense.query.get_or_404(id)
+    if expense.user_id != current_user.id:
+        flash("Not authorized to delete this expense!", "danger")
+        return redirect(url_for("show_expense_page"))
     
+    db.session.delete(expense)
+    db.session.commit()
+    flash("Expense deleted successfully!", "success")
+    return redirect(url_for("show_expense_page"))
+  
 
 
 #MONTHLY EXPENSE PAGE
@@ -103,12 +121,11 @@ def delete_expense(id):
 def monthly_page():
     total_data = None
     if request.method == "POST":
-        month = request.form.get("month")  
-        url = f"http://127.0.0.1:5000/api/monthly/{month}/{current_user.id}"
-        res = requests.get(url)
-        total_data = res.json()  
+        month = request.form.get("month")  # e.g., "04" for April
+        expenses = Expense.query.filter_by(user_id=current_user.id).all()
+        total = sum(exp.amount for exp in expenses if exp.date[5:7] == month)
+        total_data = {"Month": month, "Total_Spent": total}
     return render_template("monthly.html", total_data=total_data)
-
 
 
 

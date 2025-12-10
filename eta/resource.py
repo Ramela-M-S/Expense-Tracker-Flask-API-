@@ -37,17 +37,18 @@ api.add_resource(ExpenseList,"/api/expenses/<int:user_id>")
 # ADD EXPENSE API
 class ExpenseAdd(Resource):
     @marshal_with(exp_fields)
-    def post(self,user_id):
+    def post(self, user_id):
         args = user_Args.parse_args()
-        u1 = Expense(
-                     title = args["title"] ,
-                     amount = args["amount"],
-                     category=args["category"],
-                     date = args["date"],
-                     user_id = user_id)
-        db.session.add(u1)
+        expense = Expense(
+            title=args["title"],
+            amount=args["amount"],
+            category=args["category"],
+            date=args["date"],
+            user_id=user_id
+        )
+        db.session.add(expense)
         db.session.commit()
-        return u1, 201
+        return expense, 201
 
   
 api.add_resource(ExpenseAdd,"/api/a_expenses/<int:user_id>")
